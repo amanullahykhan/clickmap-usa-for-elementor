@@ -1,0 +1,152 @@
+/**
+ * ClickMap USA — front-end styles.
+ * Most visual properties are driven by Elementor controls (inline CSS);
+ * this file provides structure, responsiveness and the tooltip.
+ */
+
+.clickmap-usa-map-wrap {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.clickmap-usa-map {
+	position: relative;
+	width: 100%;
+	margin: 0 auto;
+	box-sizing: border-box;
+	line-height: 0; /* kill inline-svg gap */
+}
+
+/* The SVG scales fluidly inside its max-width container. */
+.clickmap-usa-map-svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+}
+
+/* Each state link/group wrapper. */
+.clickmap-state-link {
+	cursor: pointer;
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* The actual state shape. Colors/stroke/transition come from controls. */
+.clickmap-state {
+	cursor: pointer;
+	fill: #2f8f4e;
+	stroke: #ffffff;
+	stroke-width: 1;
+	transition: all 200ms ease;
+	outline: none;
+}
+
+/* Keyboard accessibility: visible focus ring on the shape. */
+.clickmap-state-link:focus-visible .clickmap-state,
+.clickmap-state:focus-visible {
+	stroke-dasharray: 4 2;
+}
+
+/* Abbreviation labels overlaid on states (optional). */
+.clickmap-state-label {
+	fill: #ffffff;
+	font-size: 11px;
+	font-weight: 600;
+	font-family: inherit;
+	user-select: none;
+	pointer-events: none;
+}
+
+/* Labels for small states, placed beside the map (sit on the page
+   background rather than on a state, so they need their own color). */
+.clickmap-state-label--outside {
+	fill: #333333;
+}
+
+/* Leader line joining an outside label to its state. */
+.clickmap-state-leader {
+	stroke: #555555;
+	stroke-width: 0.8;
+	pointer-events: none;
+}
+
+/* ----------------------------------------------------------------------
+ * Tooltip
+ * ------------------------------------------------------------------- */
+.clickmap-tooltip {
+	position: absolute;
+	z-index: 20;
+	top: 0;
+	left: 0;
+	transform: translate(-50%, -115%);
+	background-color: #111827;
+	color: #ffffff;
+	padding: 6px 10px;
+	border-radius: 6px;
+	font-size: 13px;
+	line-height: 1.2;
+	white-space: nowrap;
+	pointer-events: none;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 120ms ease;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.clickmap-tooltip.is-visible {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Little arrow under the tooltip. */
+.clickmap-tooltip::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	border: 6px solid transparent;
+	border-top-color: #111827;
+}
+
+/* ----------------------------------------------------------------------
+ * Setup / error notice (shown when SVG is missing)
+ * ------------------------------------------------------------------- */
+.clickmap-usa-map-notice {
+	border: 1px dashed #c9ced6;
+	background: #f7f8fa;
+	color: #3a3f47;
+	padding: 18px 20px;
+	border-radius: 8px;
+	font-size: 14px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.clickmap-usa-map-notice-hint {
+	display: inline-block;
+	margin-top: 6px;
+	font-size: 12px;
+	color: #6b7280;
+}
+
+/* ----------------------------------------------------------------------
+ * Responsive niceties
+ * ------------------------------------------------------------------- */
+@media (max-width: 767px) {
+	.clickmap-tooltip {
+		font-size: 12px;
+	}
+	.clickmap-state-label {
+		font-size: 9px;
+	}
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+	.clickmap-state,
+	.clickmap-tooltip {
+		transition: none !important;
+	}
+}
